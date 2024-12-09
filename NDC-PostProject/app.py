@@ -48,6 +48,10 @@ class Jeu:
         
         self.life_sprites = (50, 202)
         self.mun_sprites = (2, 202)
+        self.life_up_sprite = (50,185)
+        self.mun_up_sprite = (2,185)
+        self.fire_rate_up_sprite = (18,185)
+        self.speed_up_sprite = (34,185)
         
         self.current_direction = "up"
         
@@ -225,46 +229,37 @@ class Jeu:
             if self.vaisseau_x < up[0] + 8 and self.vaisseau_x + 8 > up[0] and self.vaisseau_y < up[1] + 8 and self.vaisseau_y + 8 > up[1]:
                 self.vies_max += 1
                 self.ennemi_timer = 60
-                self.life_up.remove(up)
-                for up in self.speed_up:
-                    self.speed_up.remove(up)
-                for up in self.fire_rate_up:
-                    self.fire_rate_up.remove(up)
-                for up in self.mun_up:
-                    self.mun_up.remove(up)
+                self.life_up.clear()
+                self.speed_up.clear()            
+                self.fire_rate_up.clear()       
+                self.mun_up.clear()
+
         for up in self.speed_up:
             if self.vaisseau_x < up[0] + 8 and self.vaisseau_x + 8 > up[0] and self.vaisseau_y < up[1] + 8 and self.vaisseau_y + 8 > up[1]:
                 self.speed += 0.5
                 self.ennemi_timer = 60
-                self.speed_up.remove(up)
-                for up in self.fire_rate_up:
-                    self.fire_rate_up.remove(up)
-                for up in self.mun_up:
-                    self.mun_up.remove(up)
-                for up in self.life_up:
-                    self.life_up.remove(up)
+                self.speed_up.clear()
+                self.fire_rate_up.clear()
+                self.mun_up.clear()
+                self.life_up.clear()
+
         for up in self.mun_up:
             if self.vaisseau_x < up[0] + 8 and self.vaisseau_x + 8 > up[0] and self.vaisseau_y < up[1] + 8 and self.vaisseau_y + 8 > up[1]:
                 self.mun_max += 10
                 self.ennemi_timer = 60
-                self.mun_up.remove(up)
-                for up in self.speed_up:
-                    self.speed_up.remove(up)
-                for up in self.fire_rate_up:
-                    self.fire_rate_up.remove(up)
-                for up in self.life_up:
-                    self.life_up.remove(up)
+                self.mun_up.clear()
+                self.speed_up.celar()
+                self.fire_rate_up.clear()
+                self.life_up.clear()
+
         for up in self.fire_rate_up:
             if self.vaisseau_x < up[0] + 8 and self.vaisseau_x + 8 > up[0] and self.vaisseau_y < up[1] + 8 and self.vaisseau_y + 8 > up[1]:
                 self.t -= 2  # Decrease time between shots
                 self.ennemi_timer = 60
-                self.fire_rate_up.remove(up)
-                for up in self.speed_up:
-                    self.speed_up.remove(up)
-                for up in self.mun_up:
-                    self.mun_up.remove(up)
-                for up in self.life_up:
-                    self.life_up.remove(up)
+                self.fire_rate_up.clear()
+                self.speed_up.clear()
+                self.mun_up.clear()
+                self.life_up.clear()
 
     def update(self):
         self.deplacement()
@@ -313,13 +308,13 @@ class Jeu:
         pyxel.text(50, 110, 'MUNITION:' + str(self.mun) + '/' + str(self.mun_max), 6)
         
         for up in self.life_up:
-            pyxel.rect(up[0], up[1], 8, 8, 11)  # Dessine un carré pour représenter le power-up de vie
+            pyxel.blt(up[0], up[1], 0, self.life_up_sprite[0], self.life_up_sprite[1], 11, 11, 5) 
         for up in self.speed_up:
-            pyxel.rect(up[0], up[1], 8, 8, 8)  # Dessine un carré pour représenter le power-up de vitesse
+            pyxel.blt(up[0], up[1], 0, self.speed_up_sprite[0], self.speed_up_sprite[1], 11, 11, 5) 
         for up in self.mun_up:
-            pyxel.rect(up[0], up[1], 8, 8, 9)  # Dessine un carré pour représenter le power-up de munitions
+            pyxel.blt(up[0], up[1], 0, self.mun_up_sprite[0], self.mun_up_sprite[1], 11, 11, 5)  
         for up in self.fire_rate_up:
-            pyxel.rect(up[0], up[1], 8, 8, 10)  # Dessine un carré pour représenter le power-up de cadence de tir
+            pyxel.blt(up[0], up[1], 0, self.fire_rate_up_sprite[0], self.fire_rate_up_sprite[1], 11, 11, 5)  
             
         for life in self.life_liste:
             pyxel.blt(life[0], life[1], 0, self.life_sprites[0], self.life_sprites[1], 11, 11, 5)
