@@ -154,7 +154,7 @@ class Jeu:
             for ennemi in self.ennemis_liste:
                 if idex == 0:
                     for tir in self.tirs_liste[0]:
-                        if ennemi[0] <= tir[0] + 1 and ennemi[0] + 8 >= tir[0] and ennemi[1] + 8 >= tir[1]:
+                        if ennemi[0] <= tir[0] + 1 and ennemi[0] + 8 >= tir[0] and ennemi[1] + 8 >= tir[1] and ennemi[1] <= tir[1] + 1:
                             self.ennemis_liste.remove(ennemi)
                             self.tirs_liste[0].remove(tir)
                             if random.randint(0, 100) >= 97:
@@ -164,7 +164,7 @@ class Jeu:
                                 
                 elif idex == 1:
                     for tir in self.tirs_liste[1]:
-                        if ennemi[0] <= tir[0] + 1 and ennemi[0] + 8 >= tir[0] and ennemi[1] + 8 >= tir[1]:
+                        if ennemi[0] <= tir[0] + 1 and ennemi[0] + 8 >= tir[0] and ennemi[1] + 8 >= tir[1] and ennemi[1] <= tir[1] + 1:
                             self.ennemis_liste.remove(ennemi)
                             self.tirs_liste[1].remove(tir)
                             if random.randint(0, 100) >= 97:
@@ -173,7 +173,7 @@ class Jeu:
                                 self.mun_liste.append([ennemi[0], ennemi[1]])
                 elif idex == 2:
                     for tir in self.tirs_liste[2]:
-                        if ennemi[1] <= tir[1] + 1 and ennemi[1] + 8 >= tir[1] and ennemi[0] + 8 >= tir[0]:
+                        if ennemi[1] <= tir[1] + 1 and ennemi[1] + 8 >= tir[1] and ennemi[0] + 8 >= tir[0] and ennemi[0] <= tir[0] + 1:
                             self.ennemis_liste.remove(ennemi)
                             self.tirs_liste[2].remove(tir)
                             if random.randint(0, 100) >= 97:
@@ -182,7 +182,7 @@ class Jeu:
                                 self.mun_liste.append([ennemi[0], ennemi[1]])
                 elif idex == 3:
                     for tir in self.tirs_liste[3]:
-                        if ennemi[1] <= tir[1] + 1 and ennemi[1] + 8 >= tir[1] and ennemi[0] + 8 >= tir[0]:
+                        if ennemi[1] <= tir[1] + 1 and ennemi[1] + 8 >= tir[1] and ennemi[0] + 8 >= tir[0] and ennemi[0] <= tir[0] + 1:
                             self.ennemis_liste.remove(ennemi)
                             self.tirs_liste[3].remove(tir)
                             if random.randint(0, 100) >= 97:
