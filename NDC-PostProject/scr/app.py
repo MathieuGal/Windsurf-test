@@ -1,30 +1,30 @@
 import pyxel
 import random
-
+from config import *
 class Jeu:
     def __init__(self):
-        pyxel.init(128, 128, title="Nuit du c0de")
+        pyxel.init(WINDOW_WIDTH, WINDOW_HEIGHT, title="Nuit du c0de")
         
-        self.tir_velocity = 2
+        self.tir_velocity = BULLET_SPEED
         self.vaisseau_x = 60
         self.vaisseau_y = 60
-        self.vies = 5
-        self.vies_max = 5
-        self.mun = 60
-        self.mun_max = 60
+        self.vies = INITIAL_PLAYER_HEALTH
+        self.vies_max = MAX_PLAYER_HEALTH
+        self.mun = INITIAL_PLAYER_MUN
+        self.mun_max = MAX_PLAYER_MUN
         self.speed = 1
         self.tirs_liste = [[], [], [], []]
         self.ennemis_liste = []
         self.vagues = 0
-        self.spawner = 5
+        self.spawner = WAVE_ENEMY_INCREMENT
         self.ennemi_timer = 0
         self.enn_spawn = 0
         self.ennemi_sprite_index = 0
         self.ennemi_sprite_timer = 0
         self.ennemi_sprites = [(0, 120), (16, 120), (16, 136)]  # Liste des sprites des ennemis (x, y) sur la tilesheet
         self.timer = 0
-        self.t = 20
-        self.et = 30
+        self.t = FIRE_RATE
+        self.et = ENEMY_SPAWN_DELAY
         self.life_liste = []
         self.mun_liste = []
         
@@ -55,7 +55,7 @@ class Jeu:
         
         self.current_direction = "up"
         
-        pyxel.load("3.pyxres")
+        pyxel.load("../assets/pyxres/myasset.pyxres")
         pyxel.run(self.update, self.draw)
 
     def deplacement(self):
@@ -139,13 +139,13 @@ class Jeu:
     def ennemis_deplacement(self):
         for ennemi in self.ennemis_liste:
             if ennemi[0] < self.vaisseau_x:
-                ennemi[0] += 0.4
+                ennemi[0] += ENEMY_BASE_SPEED
             elif ennemi[0] > self.vaisseau_x:
-                ennemi[0] -= 0.4
+                ennemi[0] -= ENEMY_BASE_SPEED
             if ennemi[1] < self.vaisseau_y:
-                ennemi[1] += 0.4
+                ennemi[1] += ENEMY_BASE_SPEED
             elif ennemi[1] > self.vaisseau_y:
-                ennemi[1] -= 0.4
+                ennemi[1] -= ENEMY_BASE_SPEED
 
     def vaisseau_suppression(self):    
         for ennemi in self.ennemis_liste:
@@ -161,9 +161,9 @@ class Jeu:
                         if ennemi[0] <= tir[0] + 1 and ennemi[0] + 8 >= tir[0] and ennemi[1] + 8 >= tir[1] and ennemi[1] <= tir[1] + 1:
                             self.ennemis_liste.remove(ennemi)
                             self.tirs_liste[0].remove(tir)
-                            if random.randint(0, 100) >= 97:
+                            if random.randint(0, 100) >= PROBA_DROP_LIFE:
                                 self.life_liste.append([ennemi[0], ennemi[1]])
-                            if random.randint(0, 100) >= 75:
+                            if random.randint(0, 100) >= PROBA_DROP_MUN:
                                 self.mun_liste.append([ennemi[0], ennemi[1]])
                                 
                 elif idex == 1:
@@ -171,27 +171,27 @@ class Jeu:
                         if ennemi[0] <= tir[0] + 1 and ennemi[0] + 8 >= tir[0] and ennemi[1] + 8 >= tir[1] and ennemi[1] <= tir[1] + 1:
                             self.ennemis_liste.remove(ennemi)
                             self.tirs_liste[1].remove(tir)
-                            if random.randint(0, 100) >= 97:
+                            if random.randint(0, 100) >= PROBA_DROP_LIFE:
                                 self.life_liste.append([ennemi[0], ennemi[1]])
-                            if random.randint(0, 100) >= 75:
+                            if random.randint(0, 100) >= PROBA_DROP_MUN:
                                 self.mun_liste.append([ennemi[0], ennemi[1]])
                 elif idex == 2:
                     for tir in self.tirs_liste[2]:
                         if ennemi[1] <= tir[1] + 1 and ennemi[1] + 8 >= tir[1] and ennemi[0] + 8 >= tir[0] and ennemi[0] <= tir[0] + 1:
                             self.ennemis_liste.remove(ennemi)
                             self.tirs_liste[2].remove(tir)
-                            if random.randint(0, 100) >= 97:
+                            if random.randint(0, 100) >= PROBA_DROP_LIFE:
                                 self.life_liste.append([ennemi[0], ennemi[1]])
-                            if random.randint(0, 100) >= 75:
+                            if random.randint(0, 100) >= PROBA_DROP_MUN:
                                 self.mun_liste.append([ennemi[0], ennemi[1]])
                 elif idex == 3:
                     for tir in self.tirs_liste[3]:
                         if ennemi[1] <= tir[1] + 1 and ennemi[1] + 8 >= tir[1] and ennemi[0] + 8 >= tir[0] and ennemi[0] <= tir[0] + 1:
                             self.ennemis_liste.remove(ennemi)
                             self.tirs_liste[3].remove(tir)
-                            if random.randint(0, 100) >= 97:
+                            if random.randint(0, 100) >= PROBA_DROP_LIFE:
                                 self.life_liste.append([ennemi[0], ennemi[1]])
-                            if random.randint(0, 100) >= 75:
+                            if random.randint(0, 100) >= PROBA_DROP_MUN:
                                 self.mun_liste.append([ennemi[0], ennemi[1]])
                                 
     def life_creation(self):
@@ -211,7 +211,7 @@ class Jeu:
                 
     def amelioration(self):
         if self.vagues % 5 == 0:
-            self.ennemi_timer = 99999999
+            self.ennemi_timer = POWER_UP_SPAWN_TIME
             for i in range(3):
                 x = (i + 1) * 30
                 up_type = random.randint(1, 4)
@@ -236,7 +236,7 @@ class Jeu:
 
         for up in self.speed_up:
             if self.vaisseau_x < up[0] + 8 and self.vaisseau_x + 8 > up[0] and self.vaisseau_y < up[1] + 8 and self.vaisseau_y + 8 > up[1]:
-                self.speed += 0.5
+                self.speed += PLAYER_SPEED_INCREMENT
                 self.ennemi_timer = 60
                 self.speed_up.clear()
                 self.fire_rate_up.clear()
