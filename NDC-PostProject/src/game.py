@@ -8,8 +8,7 @@ class jeu:
         pyxel.init(128, 128, title="Nuit du c0de")
         
         self.tir_velocity = 2
-        self.vaisseau_x = 60
-        self.vaisseau_y = 60
+        self.vaisseau = [60, 60]
         self.vies = 5
         self.vies_max = 5
         self.mun = 60
@@ -60,36 +59,36 @@ class jeu:
         pyxel.load("C:/Users/mathi/NDC-PostProject/asset/pyxres/my_assets.pyxres")
 
     def deplacement(self):
-        if pyxel.btn(pyxel.KEY_RIGHT) and self.vaisseau_x < 120:
-            self.vaisseau_x += self.speed
+        if pyxel.btn(pyxel.KEY_RIGHT) and self.vaisseau[0] < 120:
+            self.vaisseau[0] += self.speed
             self.current_direction = "right"
-        if pyxel.btn(pyxel.KEY_LEFT) and self.vaisseau_x > 0:
-            self.vaisseau_x -= self.speed
+        if pyxel.btn(pyxel.KEY_LEFT) and self.vaisseau[0] > 0:
+            self.vaisseau[0] -= self.speed
             self.current_direction = "left"
-        if pyxel.btn(pyxel.KEY_DOWN) and self.vaisseau_y < 120:
-            self.vaisseau_y += self.speed
+        if pyxel.btn(pyxel.KEY_DOWN) and self.vaisseau[1] < 120:
+            self.vaisseau[1] += self.speed
             self.current_direction = "down"
-        if pyxel.btn(pyxel.KEY_UP) and self.vaisseau_y > 0:
-            self.vaisseau_y -= self.speed
+        if pyxel.btn(pyxel.KEY_UP) and self.vaisseau[1] > 0:
+            self.vaisseau[1] -= self.speed
             self.current_direction = "up"
 
     def tirs_creation(self):
         self.timer -= 1
         if self.timer <= 0 and self.mun > 0:
             if pyxel.btnr(pyxel.KEY_Z):
-                self.tirs_liste[0].append([self.vaisseau_x + 3, self.vaisseau_y - 4])
+                self.tirs_liste[0].append([self.vaisseau[0] + 3, self.vaisseau[1] - 4])
                 self.timer += self.t
                 self.mun -= 1
             elif pyxel.btnr(pyxel.KEY_S):
-                self.tirs_liste[1].append([self.vaisseau_x + 3, self.vaisseau_y + 8])
+                self.tirs_liste[1].append([self.vaisseau[0] + 3, self.vaisseau[1] + 8])
                 self.timer += self.t
                 self.mun -= 1
             elif pyxel.btnr(pyxel.KEY_Q):
-                self.tirs_liste[2].append([self.vaisseau_x - 4, self.vaisseau_y + 3])
+                self.tirs_liste[2].append([self.vaisseau[0] - 4, self.vaisseau[1] + 3])
                 self.timer += self.t
                 self.mun -= 1
             elif pyxel.btnr(pyxel.KEY_D):
-                self.tirs_liste[3].append([self.vaisseau_x + 8, self.vaisseau_y + 3])
+                self.tirs_liste[3].append([self.vaisseau[0] + 8, self.vaisseau[1] + 3])
                 self.timer += self.t
                 self.mun -= 1
 
@@ -114,27 +113,42 @@ class jeu:
                         tirs.remove(tir)
 
     def ennemis_creation(self):
-        x = random.randint(0,120)
-        y = random.randint(0,120)
+        x = randint(0,120)
+        y = randint(0,120)
         if x == 120 or y == 120 or x == 0 or y == 0:
             self.ennemis_liste.append([x,y])
         else:
             self.ennemis_creation()
 
+    def vagues_avances(self):
+        if self.ennemi_timer > 0:
+            self.ennemi_timer -= 1
+        elif self.enn_spawn < self.spawner:
+            self.ennemis_creation()
+            self.enn_spawn += 1
+            self.ennemi_timer = self.et
+        if self.enn_spawn == self.spawner and self.ennemis_liste == []:
+            self.vagues += 1
+            self.spawner += 5
+            self.enn_spawn = 0
+            self.ennemi_timer = 150
+            self.et -= 2
+            self.amelioration()
+
     def ennemis_deplacement(self):
         for ennemi in self.ennemis_liste:
-            if ennemi[0] < self.vaisseau_x:
+            if ennemi[0] < self.vaisseau[0]:
                 ennemi[0] += 0.4
-            elif ennemi[0] > self.vaisseau_x:
+            elif ennemi[0] > self.vaisseau[0]:
                 ennemi[0] -= 0.4
-            if ennemi[1] < self.vaisseau_y:
+            if ennemi[1] < self.vaisseau[1]:
                 ennemi[1] += 0.4
-            elif ennemi[1] > self.vaisseau_y:
+            elif ennemi[1] > self.vaisseau[1]:
                 ennemi[1] -= 0.4
 
     def vaisseau_suppression(self):    
         for ennemi in self.ennemis_liste:
-            if ennemi[0] <= self.vaisseau_x + 8 and ennemi[1] <= self.vaisseau_y + 8 and ennemi[0] + 8 >= self.vaisseau_x and ennemi[1] + 8 >= self.vaisseau_y:
+            if check_collision(self.vaisseau, ennemi):
                 self.ennemis_liste.remove(ennemi)
                 self.vies -= 1
 
@@ -146,9 +160,9 @@ class jeu:
                         if ennemi[0] <= tir[0] + 1 and ennemi[0] + 8 >= tir[0] and ennemi[1] + 8 >= tir[1] and ennemi[1] <= tir[1] + 1:
                             self.ennemis_liste.remove(ennemi)
                             self.tirs_liste[0].remove(tir)
-                            if random.randint(0, 100) >= 97:
+                            if randint(0, 100) >= 97:
                                 self.life_liste.append([ennemi[0], ennemi[1]])
-                            if random.randint(0, 100) >= 75:
+                            if randint(0, 100) >= 75:
                                 self.mun_liste.append([ennemi[0], ennemi[1]])
                                     
                 elif idex == 1:
@@ -156,28 +170,96 @@ class jeu:
                         if ennemi[0] <= tir[0] + 1 and ennemi[0] + 8 >= tir[0] and ennemi[1] + 8 >= tir[1] and ennemi[1] <= tir[1] + 1:
                             self.ennemis_liste.remove(ennemi)
                             self.tirs_liste[1].remove(tir)
-                            if random.randint(0, 100) >= 97:
+                            if randint(0, 100) >= 97:
                                self.life_liste.append([ennemi[0], ennemi[1]])
-                            if random.randint(0, 100) >= 75:
+                            if randint(0, 100) >= 75:
                                 self.mun_liste.append([ennemi[0], ennemi[1]])
                 elif idex == 2:
                     for tir in self.tirs_liste[2]:
                         if ennemi[1] <= tir[1] + 1 and ennemi[1] + 8 >= tir[1] and ennemi[0] + 8 >= tir[0] and ennemi[0] <= tir[0] + 1:
                             self.ennemis_liste.remove(ennemi)
                             self.tirs_liste[2].remove(tir)
-                            if random.randint(0, 100) >= 97:
+                            if randint(0, 100) >= 97:
                                 self.life_liste.append([ennemi[0], ennemi[1]])
-                            if random.randint(0, 100) >= 75:
+                            if randint(0, 100) >= 75:
                                 self.mun_liste.append([ennemi[0], ennemi[1]])
                 elif idex == 3:
                     for tir in self.tirs_liste[3]:
                         if ennemi[1] <= tir[1] + 1 and ennemi[1] + 8 >= tir[1] and ennemi[0] + 8 >= tir[0] and ennemi[0] <= tir[0] + 1:
                             self.ennemis_liste.remove(ennemi)
                             self.tirs_liste[3].remove(tir)
-                            if random.randint(0, 100) >= 97:
+                            if randint(0, 100) >= 97:
                                 self.life_liste.append([ennemi[0], ennemi[1]])
-                            if random.randint(0, 100) >= 75:
+                            if randint(0, 100) >= 75:
                                 self.mun_liste.append([ennemi[0], ennemi[1]])
+
+    def power_up_collision(self):
+        for up in self.life_up:
+            if check_collision(self.vaisseau, up):
+                self.vies_max += 1
+                self.ennemi_timer = 60
+                self.life_up.clear()
+                self.speed_up.clear()            
+                self.fire_rate_up.clear()       
+                self.mun_up.clear()
+
+        for up in self.speed_up:
+            if check_collision(self.vaisseau, up):
+                self.speed += 0.5
+                self.ennemi_timer = 60
+                self.speed_up.clear()
+                self.fire_rate_up.clear()
+                self.mun_up.clear()
+                self.life_up.clear()
+
+        for up in self.mun_up:
+            if check_collision(self.vaisseau, up):
+                self.mun_max += 10
+                self.ennemi_timer = 60
+                self.mun_up.clear()
+                self.speed_up.celar()
+                self.fire_rate_up.clear()
+                self.life_up.clear()
+
+        for up in self.fire_rate_up:
+            if check_collision(self.vaisseau, up):
+                self.t -= 2  # Decrease time between shots
+                self.ennemi_timer = 60
+                self.fire_rate_up.clear()
+                self.speed_up.clear()
+                self.mun_up.clear()
+                self.life_up.clear()
+
+    def life_creation(self):
+        for life in self.life_liste:
+            if check_collision(self.vaisseau, life):
+                self.life_liste.remove(life)
+                if self.vies < self.vies_max:
+                    self.vies += 1
+    
+    def mun_creation(self):
+        for mun in self.mun_liste:
+            if check_collision(self.vaisseau, mun):
+                self.mun += 5
+                if self.mun > self.mun_max:
+                    self.mun = self.mun_max
+                self.mun_liste.remove(mun)
+
+    def amelioration(self):
+        if self.vagues % 5 == 0:
+            self.ennemi_timer = 99999999
+            for i in range(3):
+                x = (i + 1) * 30
+                up_type = randint(1, 4)
+                if up_type == 1:
+                    self.life_up.append([x, 60])
+                elif up_type == 2:
+                    self.speed_up.append([x, 60])
+                elif up_type == 3:
+                    self.mun_up.append([x, 60])
+                elif up_type == 4:
+                    self.fire_rate_up.append([x, 60])
+
     def update(self):
         self.deplacement()
         self.tirs_creation()
@@ -185,10 +267,10 @@ class jeu:
         self.ennemis_deplacement()
         self.ennemis_suppression()
         self.vaisseau_suppression()
-        #vagues_avances()
-        #life_creation()
-        #mun_creation()
-        #power_up_collision()
+        self.vagues_avances()
+        self.life_creation()
+        self.mun_creation()
+        self.power_up_collision()
             
         self.ennemi_sprite_timer += 1
         if self.ennemi_sprite_timer > 10:  # Change sprite toutes les 10 frames
@@ -198,7 +280,7 @@ class jeu:
     def draw(self):
         pyxel.cls(5)
         sprite_x, sprite_y = self.vaisseau_sprites[self.current_direction]
-        pyxel.blt(self.vaisseau_x, self.vaisseau_y, 0, sprite_x, sprite_y, 15, 15, 5)
+        pyxel.blt(self.vaisseau[0], self.vaisseau[1], 0, sprite_x, sprite_y, 15, 15, 5)
         
         if self.vies > 0:
             pyxel.text(5, 5, 'VIES:' + str(self.vies), 7)
