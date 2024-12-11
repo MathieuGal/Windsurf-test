@@ -17,12 +17,13 @@ class EnemyManager:
         self.current_ennemi_sprite = self.ennemi_sprites[0]
 
     def ennemis_creation(self):
-        x = randint(0, 120)
-        y = randint(0, 120)
-        if x == 120 or y == 120 or x == 0 or y == 0:
-            self.ennemis_liste.append([x, y])
-        else:
-            self.ennemis_creation()
+        spwn = [0, 120, randint(0,120)]
+        x = spwn[randint(0, 2)]
+        if x == 0 or x == 120:
+            y = randint(0, 120)
+        else :
+            y = spwn[randint(0, 1)]
+        self.ennemis_liste.append([x, y])
 
     def ennemis_deplacement(self, vaisseau):
         for ennemi in self.ennemis_liste:
