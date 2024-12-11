@@ -10,6 +10,8 @@ PROBA_DROP_LIFE = 97  # 3% de chance
 PROBA_DROP_MUN = 75   # 25% de chance
 
 # Gameplay
+larg_sprite = 8
+longeur_sprite = 8
 BULLET_SPEED = 2
 INITIAL_PLAYER_SPEED = 1
 INITIAL_PLAYER_HEALTH = 5
