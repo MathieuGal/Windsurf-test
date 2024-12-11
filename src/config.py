@@ -22,3 +22,16 @@ FIRE_RATE = 20
 WAVE_ENEMY_INCREMENT = 5
 ENEMY_SPAWN_DELAY = 30
 POWER_UP_SPAWN_TIME = 99999999
+
+#SPRITE
+SPRITES = {
+    "vaisseau": {"up": (17, 24), "down": (1, 24), "left": (17, 8), "right": (1, 8)},
+    "tir": {"up": (48, 8), "down": (48, 8), "left": (48, 8), "right": (48, 8)},
+    "ennemis": [(0, 120), (16, 120), (16, 136)],
+    "life": (50, 202),
+    "mun": (2, 202),
+    "life_up": (50,185),
+    "mun_up": (2,185),
+    "fire_rate_up": (18,185),
+    "speed_up": (34,185)
+}

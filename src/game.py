@@ -32,27 +32,7 @@ class jeu:
         self.mun_up = []
         self.fire_rate_up = []
         self.speed_up = []
-            
-        self.vaisseau_sprites = {
-            "up": (17, 24),
-            "down": (1, 24), 
-            "left": (17, 8), 
-            "right": (1, 8)
-        }
-        self.tir_sprites = {
-            "up": (48, 8),
-            "down": (48, 8),
-            "left": (48, 8),
-            "right": (48, 8)
-        }
-            
-        self.life_sprites = (50, 202)
-        self.mun_sprites = (2, 202)
-        self.life_up_sprite = (50,185)
-        self.mun_up_sprite = (2,185)
-        self.fire_rate_up_sprite = (18,185)
-        self.speed_up_sprite = (34,185)
-        
+ 
         self.current_direction = "up"
         
 
@@ -205,7 +185,7 @@ class jeu:
             self.ennemi_timer = POWER_UP_SPAWN_TIME
             for i in range(3):
                 x = (i + 1) * 30
-                up_type = random.randint(1, 4)
+                up_type = randint(1, 4)
                 if up_type == 1:
                     self.life_up.append([x, 60])
                 elif up_type == 2:
@@ -272,13 +252,15 @@ class jeu:
         self.power_up_collision()
             
         self.ennemi_sprite_timer += 1
-        if self.ennemi_sprite_timer > 10:  # Change sprite toutes les 10 frames
-            self.ennemi_sprite_index = (self.ennemi_sprite_index + 1) % len(self.ennemi_sprites)
+        if self.ennemi_sprite_timer > 10:
+            self.ennemi_sprite_index = (self.ennemi_sprite_index + 1) % len(SPRITES["ennemis"])
+            self.current_ennemi_sprite = SPRITES["ennemis"][self.ennemi_sprite_index]
             self.ennemi_sprite_timer = 0
+
 
     def draw(self):
         pyxel.cls(5)
-        sprite_x, sprite_y = self.vaisseau_sprites[self.current_direction]
+        sprite_x, sprite_y = SPRITES["vaisseau"][self.current_direction]
         pyxel.blt(self.vaisseau[0], self.vaisseau[1], 0, sprite_x, sprite_y, 15, 15, 5)
         
         if self.vies > 0:
@@ -287,13 +269,13 @@ class jeu:
             for tirs in self.tirs_liste:
                 for tir in tirs:
                     if tirs == self.tirs_liste[0]:
-                        sprite_x, sprite_y = self.tir_sprites["up"]
+                        sprite_x, sprite_y = SPRITES["tir"]["up"]
                     elif tirs == self.tirs_liste[1]:
-                        sprite_x, sprite_y = self.tir_sprites["down"]
+                        sprite_x, sprite_y = SPRITES["tir"]["down"]
                     elif tirs == self.tirs_liste[2]:
-                        sprite_x, sprite_y = self.tir_sprites["left"]
+                        sprite_x, sprite_y = SPRITES["tir"]["left"]
                     elif tirs == self.tirs_liste[3]:
-                        sprite_x, sprite_y = self.tir_sprites["right"]
+                        sprite_x, sprite_y = SPRITES["tir"]["right"]
                     pyxel.blt(tir[0], tir[1], 0, sprite_x, sprite_y, 7, 7)
                 
             for ennemi in self.ennemis_liste:
@@ -306,16 +288,16 @@ class jeu:
         pyxel.text(50, 110, 'MUNITION:' + str(self.mun) + '/' + str(self.mun_max), 6)
             
         for up in self.life_up:
-            pyxel.blt(up[0], up[1], 0, self.life_up_sprite[0], self.life_up_sprite[1], 11, 11, 5) 
+            pyxel.blt(up[0], up[1], 0, SPRITES["life_up"][0], SPRITES["life_up"][1], 11, 11, 5) 
         for up in self.speed_up:
-            pyxel.blt(up[0], up[1], 0, self.speed_up_sprite[0], self.speed_up_sprite[1], 11, 11, 5) 
+            pyxel.blt(up[0], up[1], 0, SPRITES["speed_up"][0], SPRITES["speed_up"][1], 11, 11, 5) 
         for up in self.mun_up:
-            pyxel.blt(up[0], up[1], 0, self.mun_up_sprite[0], self.mun_up_sprite[1], 11, 11, 5)  
+            pyxel.blt(up[0], up[1], 0, SPRITES["mun_up"][0], SPRITES["mun_up"][1], 11, 11, 5)  
         for up in self.fire_rate_up:
-            pyxel.blt(up[0], up[1], 0, self.fire_rate_up_sprite[0], self.fire_rate_up_sprite[1], 11, 11, 5)  
+            pyxel.blt(up[0], up[1], 0, SPRITES["fire_rate_up"][0], SPRITES["fire_rate_up"][1], 11, 11, 5)  
                 
         for life in self.life_liste:
-            pyxel.blt(life[0], life[1], 0, self.life_sprites[0], self.life_sprites[1], 11, 11, 5)
+            pyxel.blt(life[0], life[1], 0, SPRITES["life"][0], SPRITES["life"][1], 11, 11, 5)
                 
         for mun in self.mun_liste:
-            pyxel.blt(mun[0], mun[1], 0, self.mun_sprites[0], self.mun_sprites[1], 11, 11, 5)
+            pyxel.blt(mun[0], mun[1], 0, SPRITES["mun"][0], SPRITES["mun"][1], 11, 11, 5)
