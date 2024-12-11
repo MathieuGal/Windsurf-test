@@ -1,4 +1,3 @@
-from game import *
 from config import *
 from random import *
 
