@@ -5,27 +5,26 @@ from utils import *
 
 class jeu:
     def __init__(self):
-        pyxel.init(128, 128, title="Nuit du c0de")
+        pyxel.init(WINDOW_WIDTH, WINDOW_HEIGHT, title="Nuit du c0de")
         
-        self.tir_velocity = 2
         self.vaisseau = [60, 60]
-        self.vies = 5
-        self.vies_max = 5
-        self.mun = 60
-        self.mun_max = 60
+        self.vies = INITIAL_PLAYER_HEALTH
+        self.vies_max = MAX_PLAYER_HEALTH
+        self.mun = INITIAL_PLAYER_MUN
+        self.mun_max = MAX_PLAYER_MUN
         self.speed = 1
         self.tirs_liste = [[], [], [], []]
         self.ennemis_liste = []
         self.vagues = 0
-        self.spawner = 5
+        self.spawner = WAVE_ENEMY_INCREMENT
         self.ennemi_timer = 0
         self.enn_spawn = 0
         self.ennemi_sprite_index = 0
         self.ennemi_sprite_timer = 0
         self.ennemi_sprites = [(0, 120), (16, 120), (16, 136)]  # Liste des sprites des ennemis (x, y) sur la tilesheet
         self.timer = 0
-        self.t = 20
-        self.et = 30
+        self.t = FIRE_RATE
+        self.et = ENEMY_SPAWN_DELAY
         self.life_liste = []
         self.mun_liste = []
         
@@ -56,7 +55,7 @@ class jeu:
         
         self.current_direction = "up"
         
-        pyxel.load("../asset/pyxres/my_assets.pyxres")
+        pyxel.load("../assets/pyxres/my_assets.pyxres")
 
     def deplacement(self):
         if pyxel.btn(pyxel.KEY_RIGHT) and self.vaisseau[0] < 120:
@@ -96,19 +95,19 @@ class jeu:
         for tirs in self.tirs_liste:
             for tir in tirs:
                 if tirs == self.tirs_liste[0]:
-                    tir[1] -= self.tir_velocity
+                    tir[1] -= BULLET_SPEED
                     if tir[1] < -8:
                         tirs.remove(tir)
                 elif tirs == self.tirs_liste[1]:
-                    tir[1] += self.tir_velocity
+                    tir[1] += BULLET_SPEED
                     if tir[1] > 128:
                         tirs.remove(tir)
                 elif tirs == self.tirs_liste[2]:
-                    tir[0] -= self.tir_velocity
+                    tir[0] -= BULLET_SPEED
                     if tir[0] < -8:
                         tirs.remove(tir)
                 elif tirs == self.tirs_liste[3]:
-                    tir[0] += self.tir_velocity
+                    tir[0] += BULLET_SPEED
                     if tir[0] > 128:
                         tirs.remove(tir)
 
