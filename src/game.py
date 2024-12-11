@@ -56,7 +56,7 @@ class jeu:
         
         self.current_direction = "up"
         
-        pyxel.load("C:/Users/mathi/NDC-PostProject/asset/pyxres/my_assets.pyxres")
+        pyxel.load("../asset/pyxres/my_assets.pyxres")
 
     def deplacement(self):
         if pyxel.btn(pyxel.KEY_RIGHT) and self.vaisseau[0] < 120:
