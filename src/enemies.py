@@ -58,20 +58,48 @@ class EnemyManager:
                 player.vies -= 1
 
     def ennemis_suppression(self, projectile_manager, powerup_manager):
-        for idex in range(4):
-            for ennemi in self.ennemis_liste.copy():
-                for tir in projectile_manager.tirs_liste[idex].copy():
+    # Listes pour stocker les éléments à supprimer
+        ennemis_a_supprimer = []
+        tirs_a_supprimer = []
+
+    # Dictionnaire pour mapper les index de direction des tirs
+        tir_directions = {
+            0: projectile_manager.tirs_liste[0],
+            1: projectile_manager.tirs_liste[1],
+            2: projectile_manager.tirs_liste[2],
+            3: projectile_manager.tirs_liste[3]
+        }
+
+        # Parcourir les ennemis et les tirs
+        for ennemi in self.ennemis_liste:
+            for direction, tirs in tir_directions.items():
+                for tir in tirs:
                     if check_collision(tir, ennemi):
-                        self.ennemis_liste.remove(ennemi)
-                        projectile_manager.tirs_liste[idex].remove(tir)
+                        # Marquer l'ennemi et le tir pour suppression
+                        if ennemi not in ennemis_a_supprimer:
+                            ennemis_a_supprimer.append(ennemi)
+                        if tir not in tirs_a_supprimer:
+                            tirs_a_supprimer.append(tir)
                         
-                        # Drop logic
+                        # Gestion des drops
                         if randint(0, 100) >= PROBA_DROP_LIFE:
                             powerup_manager.life_liste.append([ennemi[0], ennemi[1]])
                         if randint(0, 100) >= PROBA_DROP_MUN:    
                             powerup_manager.mun_liste.append([ennemi[0], ennemi[1]])
                         
-                        break  # Prevent multiple hits
+                        # Sortir de la boucle de tirs pour cet ennemi
+                        break
+
+        # Supprimer les ennemis et les tirs en dehors des boucles
+        for ennemi in ennemis_a_supprimer:
+            if ennemi in self.ennemis_liste:
+                self.ennemis_liste.remove(ennemi)
+
+        # Supprimer les tirs de toutes les directions
+        for direction, tirs in tir_directions.items():
+            for tir in tirs_a_supprimer:
+                if tir in tirs:
+                    tirs.remove(tir)
 
     def update_sprite_animation(self):
         self.ennemi_sprite_timer += 1
