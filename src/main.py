@@ -1,5 +1,5 @@
 import pyxel
-from config import *
+from config import WINDOW_HEIGHT, WINDOW_WIDTH, ENEMY_SPAWN_DELAY
 from player import Player
 from enemies import EnemyManager
 from projectiles import ProjectileManager

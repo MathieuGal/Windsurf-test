@@ -1,5 +1,4 @@
-from config import *
-from random import *
+from config import larg_sprite, longeur_sprite
 
 
 
