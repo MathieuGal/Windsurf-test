@@ -1,5 +1,5 @@
 import pyxel
-from config import *
+from config import BULLET_SPEED, SPRITES
 
 class ProjectileManager:
     def __init__(self):

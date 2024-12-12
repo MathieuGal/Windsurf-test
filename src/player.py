@@ -1,5 +1,5 @@
 import pyxel
-from config import *
+from config import INITIAL_PLAYER_HEALTH, INITIAL_PLAYER_MUN, MAX_PLAYER_HEALTH, MAX_PLAYER_MUN, FIRE_RATE, SPRITES
 
 class Player:
     def __init__(self):
