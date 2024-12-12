@@ -10,7 +10,6 @@ class EnemyManager:
         self.enn_spawn = 0
         self.ennemi_timer = 0
         self.et = ENEMY_SPAWN_DELAY
-        
         self.ennemi_sprite_index = 0
         self.ennemi_sprite_timer = 0
         self.ennemi_sprites = [(0, 120), (16, 120), (16, 136)]
@@ -50,7 +49,7 @@ class EnemyManager:
             self.enn_spawn = 0
             self.ennemi_timer = 150
             self.et -= 2
-            game.powerup_manager.amelioration(game)
+            game.powerup_manager.amelioration(game, self)
 
     def vaisseau_suppression(self, player):    
         for ennemi in self.ennemis_liste:

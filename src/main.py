@@ -17,7 +17,7 @@ class Game:
         self.powerup_manager = PowerUpManager()
         
         self.vagues = 0
-        self.ennemi_timer = 0
+        self.ennemi_timer = self.enemy_manager.ennemi_timer
         self.et = ENEMY_SPAWN_DELAY
 
     def update(self):
@@ -36,7 +36,7 @@ class Game:
         self.check_collisions()
         
         # Power-up updates
-        self.powerup_manager.power_up_collision(self.player)
+        self.powerup_manager.power_up_collision(self.player, self.enemy_manager)
         
         # Sprite animation
         self.update_sprites()

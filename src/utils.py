@@ -8,4 +8,3 @@ def check_collision (entity1, entity2):
           return True
      else:
           return False
-                    

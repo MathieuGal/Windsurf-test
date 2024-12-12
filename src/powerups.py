@@ -13,12 +13,12 @@ class PowerUpManager:
         self.life_liste = []
         self.mun_liste = []
 
-    def amelioration(self, game):
+    def amelioration(self, game, ennemis):
         """
         Génère des power-ups tous les 5 niveaux
         """
         if game.vagues % 5 == 0:
-            game.ennemi_timer = POWER_UP_SPAWN_TIME
+            ennemis.ennemi_timer = POWER_UP_SPAWN_TIME
             for i in range(3):
                 x = (i + 1) * 30
                 up_type = randint(1, 4)
@@ -31,7 +31,7 @@ class PowerUpManager:
                 elif up_type == 4:
                     self.fire_rate_up.append([x, 60])
 
-    def power_up_collision(self, player):
+    def power_up_collision(self, player, ennemis):
         """
         Gère les collisions avec les power-ups
         """
@@ -47,6 +47,7 @@ class PowerUpManager:
                 if check_collision(player_obj.vaisseau, up):
                     effect_method(player_obj)
                     self.clear_power_ups()
+                    ennemis.ennemi_timer = 150
                     break
 
     def life_power_up(self, player):
