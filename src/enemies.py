@@ -1,5 +1,5 @@
 from random import randint
-from config import *
+from config import WAVE_ENEMY_INCREMENT, ENEMY_SPAWN_DELAY, ENEMY_BASE_SPEED, PROBA_DROP_LIFE, PROBA_DROP_MUN, SPRITES
 from utils import check_collision
 import pyxel
 
