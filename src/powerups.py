@@ -9,7 +9,6 @@ class PowerUpManager:
         self.speed_up = []
         self.mun_up = []
         self.fire_rate_up = []
-        
         self.life_liste = []
         self.mun_liste = []
 
@@ -42,13 +41,14 @@ class PowerUpManager:
             (self.fire_rate_up, self.fire_rate_power_up, player)
         ]
         
-        for power_up_list, effect_method, player_obj in power_up_actions:
-            for up in power_up_list.copy():
-                if check_collision(player_obj.vaisseau, up):
-                    effect_method(player_obj)
-                    self.clear_power_ups()
-                    ennemis.ennemi_timer = 150
-                    break
+        if ennemis.ennemi_timer <= POWER_UP_SPAWN_TIME - Temps_avant_pick :
+            for power_up_list, effect_method, player_obj in power_up_actions:
+                for up in power_up_list.copy():
+                    if check_collision(player_obj.vaisseau, up):
+                        effect_method(player_obj)
+                        self.clear_power_ups()
+                        ennemis.ennemi_timer = 150
+                        break
 
     def life_power_up(self, player):
         """Augmente la vie maximale du joueur"""
