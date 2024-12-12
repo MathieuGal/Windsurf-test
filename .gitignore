@@ -1,0 +1,12 @@
+
+#Cache python
+*._pycache_
+
+#Configurations IDE/Éditeurs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.sublime-project
+*.sublime-workspace
