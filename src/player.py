@@ -1,5 +1,5 @@
 import pyxel
-from config import INITIAL_PLAYER_HEALTH, INITIAL_PLAYER_MUN, MAX_PLAYER_HEALTH, MAX_PLAYER_MUN, FIRE_RATE, SPRITES
+from config import INITIAL_PLAYER_HEALTH, INITIAL_PLAYER_MUN, MAX_PLAYER_HEALTH, MAX_PLAYER_MUN, FIRE_RATE, SPRITES, INITIAL_PLAYER_SPEED
 
 class Player:
     def __init__(self):
@@ -8,7 +8,7 @@ class Player:
         self.vies_max = MAX_PLAYER_HEALTH
         self.mun = INITIAL_PLAYER_MUN
         self.mun_max = MAX_PLAYER_MUN
-        self.speed = INITIAL_PLAYER_SPEED  
+        self.speed = INITIAL_PLAYER_SPEED
         self.timer = 0
         self.t = FIRE_RATE
         self.current_direction = "up"

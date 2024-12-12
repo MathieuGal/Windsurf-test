@@ -56,6 +56,8 @@ class EnemyManager:
             if check_collision(player.vaisseau, ennemi):
                 self.ennemis_liste.remove(ennemi)
                 player.vies -= 1
+        if player.vies <= 0 :
+            self.ennemi_timer = 999999999999999999
 
     def ennemis_suppression(self, projectile_manager, powerup_manager):
     # Listes pour stocker les éléments à supprimer
