@@ -26,14 +26,23 @@ class EnemyManager:
 
     def ennemis_deplacement(self, vaisseau):
         for ennemi in self.ennemis_liste:
-            if ennemi[0] < vaisseau[0]:
-                ennemi[0] += ENEMY_BASE_SPEED
-            elif ennemi[0] > vaisseau[0]:
-                ennemi[0] -= ENEMY_BASE_SPEED
-            if ennemi[1] < vaisseau[1]:
-                ennemi[1] += ENEMY_BASE_SPEED
-            elif ennemi[1] > vaisseau[1]:
-                ennemi[1] -= ENEMY_BASE_SPEED
+            # Calcul des différences sur les axes x et y
+            diff_x = vaisseau[0] - ennemi[0]
+            diff_y = vaisseau[1] - ennemi[1]
+
+            # Si la distance est supérieure à ENEMY_BASE_SPEED, on déplace normalement
+            if abs(diff_x) > ENEMY_BASE_SPEED:
+                ennemi[0] += ENEMY_BASE_SPEED if diff_x > 0 else -ENEMY_BASE_SPEED
+            else:
+                # Sinon, on ajuste pour éviter les tremblements
+                ennemi[0] += diff_x
+
+            if abs(diff_y) > ENEMY_BASE_SPEED:
+                ennemi[1] += ENEMY_BASE_SPEED if diff_y > 0 else -ENEMY_BASE_SPEED
+            else:
+                # Sinon, on ajuste pour éviter les tremblements
+                ennemi[1] += diff_y
+
 
     def vagues_avances(self, game):
         if self.ennemi_timer > 0:
