@@ -1,5 +1,7 @@
 import pyxel
-from config import INITIAL_PLAYER_HEALTH, INITIAL_PLAYER_MUN, MAX_PLAYER_HEALTH, MAX_PLAYER_MUN, FIRE_RATE, SPRITES, INITIAL_PLAYER_SPEED
+
+
+from config import INITIAL_PLAYER_HEALTH, INITIAL_PLAYER_MUN, MAX_PLAYER_HEALTH, MAX_PLAYER_MUN, FIRE_RATE, SPRITES, TIR_GAUCHE, TIR_DROIT, TIR_HAUT, TIR_BAS, DEPLACEMENT_BAS, DEPLACEMENT_HAUT, DEPLACEMENT_GAUCHE, DEPLACEMENT_DROIT, INITIAL_PLAYER_SPEED
 
 class Player:
     def __init__(self):
@@ -15,31 +17,31 @@ class Player:
         
 
     def deplacement(self):
-        keys = [pyxel.KEY_UP, pyxel.KEY_DOWN, pyxel.KEY_LEFT, pyxel.KEY_RIGHT]
+        keys = [DEPLACEMENT_HAUT, DEPLACEMENT_BAS, DEPLACEMENT_GAUCHE, DEPLACEMENT_DROIT]
         self.pressed_keys = [key for key in keys if pyxel.btn(key)]
-        if pyxel.btn(pyxel.KEY_RIGHT) and self.vaisseau[0] < 120 and len(self.pressed_keys) == 1:
+        if pyxel.btn(DEPLACEMENT_DROIT) and self.vaisseau[0] < 120 and len(self.pressed_keys) == 1:
             self.vaisseau[0] += self.speed
             self.current_direction = "right"
-        if pyxel.btn(pyxel.KEY_LEFT) and self.vaisseau[0] > 0 and len(self.pressed_keys) == 1:
+        if pyxel.btn(DEPLACEMENT_GAUCHE) and self.vaisseau[0] > 0 and len(self.pressed_keys) == 1:
             self.vaisseau[0] -= self.speed
             self.current_direction = "left"
-        if pyxel.btn(pyxel.KEY_DOWN) and self.vaisseau[1] < 120 and len(self.pressed_keys) == 1:
+        if pyxel.btn(DEPLACEMENT_BAS) and self.vaisseau[1] < 120 and len(self.pressed_keys) == 1:
             self.vaisseau[1] += self.speed
             self.current_direction = "down"
-        if pyxel.btn(pyxel.KEY_UP) and self.vaisseau[1] > 0 and len(self.pressed_keys) == 1:
+        if pyxel.btn(DEPLACEMENT_HAUT) and self.vaisseau[1] > 0 and len(self.pressed_keys) == 1:
             self.vaisseau[1] -= self.speed
             self.current_direction = "up"
         else :
-            if pyxel.btn(pyxel.KEY_RIGHT) and self.vaisseau[0] < 120 and len(self.pressed_keys) >= 2:
+            if pyxel.btn(DEPLACEMENT_DROIT) and self.vaisseau[0] < 120 and len(self.pressed_keys) >= 2:
                 self.vaisseau[0] += self.speed / 1.5
                 self.current_direction = "right"
-            if pyxel.btn(pyxel.KEY_LEFT) and self.vaisseau[0] > 0 and len(self.pressed_keys) >= 2:
+            if pyxel.btn(DEPLACEMENT_GAUCHE) and self.vaisseau[0] > 0 and len(self.pressed_keys) >= 2:
                 self.vaisseau[0] -= self.speed / 1.5
                 self.current_direction = "left"
-            if pyxel.btn(pyxel.KEY_DOWN) and self.vaisseau[1] < 120 and len(self.pressed_keys) >= 2:
+            if pyxel.btn(DEPLACEMENT_BAS) and self.vaisseau[1] < 120 and len(self.pressed_keys) >= 2:
                 self.vaisseau[1] += self.speed / 1.5
                 self.current_direction = "down"
-            if pyxel.btn(pyxel.KEY_UP) and self.vaisseau[1] > 0 and len(self.pressed_keys) >= 2:
+            if pyxel.btn(DEPLACEMENT_HAUT) and self.vaisseau[1] > 0 and len(self.pressed_keys) >= 2:
                 self.vaisseau[1] -= self.speed / 1.5
                 self.current_direction = "up"
 
@@ -47,19 +49,19 @@ class Player:
     def tirs_creation(self, projectile_manager):
         self.timer -= 1
         if self.timer <= 0 and self.mun > 0:
-            if pyxel.btnr(pyxel.KEY_Z):
+            if pyxel.btnr(TIR_HAUT):
                 projectile_manager.tirs_liste[0].append([self.vaisseau[0] + 3, self.vaisseau[1] - 4])
                 self.timer += self.t
                 self.mun -= 1
-            elif pyxel.btnr(pyxel.KEY_S):
+            elif pyxel.btnr(TIR_BAS):
                 projectile_manager.tirs_liste[1].append([self.vaisseau[0] + 3, self.vaisseau[1] + 8])
                 self.timer += self.t
                 self.mun -= 1
-            elif pyxel.btnr(pyxel.KEY_Q):
+            elif pyxel.btnr(TIR_GAUCHE):
                 projectile_manager.tirs_liste[2].append([self.vaisseau[0] - 4, self.vaisseau[1] + 3])
                 self.timer += self.t
                 self.mun -= 1
-            elif pyxel.btnr(pyxel.KEY_D):
+            elif pyxel.btnr(TIR_DROIT):
                 projectile_manager.tirs_liste[3].append([self.vaisseau[0] + 8, self.vaisseau[1] + 3])
                 self.timer += self.t
                 self.mun -= 1
