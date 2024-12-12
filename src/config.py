@@ -1,3 +1,5 @@
+import pyxel
+
 # Configurations globales
 WINDOW_WIDTH = 128
 WINDOW_HEIGHT = 128

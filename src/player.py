@@ -8,24 +8,41 @@ class Player:
         self.vies_max = MAX_PLAYER_HEALTH
         self.mun = INITIAL_PLAYER_MUN
         self.mun_max = MAX_PLAYER_MUN
-        self.speed = 1
+        self.speed = INITIAL_PLAYER_SPEED  
         self.timer = 0
         self.t = FIRE_RATE
         self.current_direction = "up"
+        
 
     def deplacement(self):
-        if pyxel.btn(pyxel.KEY_RIGHT) and self.vaisseau[0] < 120:
+        keys = [pyxel.KEY_UP, pyxel.KEY_DOWN, pyxel.KEY_LEFT, pyxel.KEY_RIGHT]
+        self.pressed_keys = [key for key in keys if pyxel.btn(key)]
+        if pyxel.btn(pyxel.KEY_RIGHT) and self.vaisseau[0] < 120 and len(self.pressed_keys) == 1:
             self.vaisseau[0] += self.speed
             self.current_direction = "right"
-        if pyxel.btn(pyxel.KEY_LEFT) and self.vaisseau[0] > 0:
+        if pyxel.btn(pyxel.KEY_LEFT) and self.vaisseau[0] > 0 and len(self.pressed_keys) == 1:
             self.vaisseau[0] -= self.speed
             self.current_direction = "left"
-        if pyxel.btn(pyxel.KEY_DOWN) and self.vaisseau[1] < 120:
+        if pyxel.btn(pyxel.KEY_DOWN) and self.vaisseau[1] < 120 and len(self.pressed_keys) == 1:
             self.vaisseau[1] += self.speed
             self.current_direction = "down"
-        if pyxel.btn(pyxel.KEY_UP) and self.vaisseau[1] > 0:
+        if pyxel.btn(pyxel.KEY_UP) and self.vaisseau[1] > 0 and len(self.pressed_keys) == 1:
             self.vaisseau[1] -= self.speed
             self.current_direction = "up"
+        else :
+            if pyxel.btn(pyxel.KEY_RIGHT) and self.vaisseau[0] < 120 and len(self.pressed_keys) >= 2:
+                self.vaisseau[0] += self.speed / 1.5
+                self.current_direction = "right"
+            if pyxel.btn(pyxel.KEY_LEFT) and self.vaisseau[0] > 0 and len(self.pressed_keys) >= 2:
+                self.vaisseau[0] -= self.speed / 1.5
+                self.current_direction = "left"
+            if pyxel.btn(pyxel.KEY_DOWN) and self.vaisseau[1] < 120 and len(self.pressed_keys) >= 2:
+                self.vaisseau[1] += self.speed / 1.5
+                self.current_direction = "down"
+            if pyxel.btn(pyxel.KEY_UP) and self.vaisseau[1] > 0 and len(self.pressed_keys) >= 2:
+                self.vaisseau[1] -= self.speed / 1.5
+                self.current_direction = "up"
+
 
     def tirs_creation(self, projectile_manager):
         self.timer -= 1
