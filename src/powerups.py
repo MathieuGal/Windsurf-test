@@ -1,6 +1,6 @@
 import pyxel
 from random import randint
-from config import *
+from config import POWER_UP_SPAWN_TIME, Temps_avant_pick, PLAYER_SPEED_INCREMENT, SPRITES
 from utils import check_collision
 
 class PowerUpManager:
