@@ -12,6 +12,7 @@ PROBA_DROP_MUN = 75   # 25% de chance
 # Gameplay
 larg_sprite = 8
 longeur_sprite = 8
+Temps_avant_pick = 150
 BULLET_SPEED = 2
 INITIAL_PLAYER_SPEED = 1
 INITIAL_PLAYER_HEALTH = 5
