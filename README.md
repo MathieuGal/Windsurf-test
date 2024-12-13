@@ -1,5 +1,7 @@
 # NDC
 
+Ce projet a été créer dans le cadre de la nuit du code de l'année 2024 au Lycée Louis Bascan.
+
 Dungeon Beast  est un jeu en 2D développé en Python avec **Pyxel**. L'objectif est de survivre à des vagues d'ennemis tout en collectant des power-ups pour améliorer votre vaisseau et vos chances de survie.
 
 
