@@ -28,7 +28,7 @@ ENEMY_SPAWN_DELAY = 30
 POWER_UP_SPAWN_TIME = 99999999
 
 # Gestion du mode QWERTY via une option de ligne de commande
-QWERTY = '-qwerty' in sys.argv
+QWERTY = '-qw' in sys.argv
 
 #COMMANDES
  ##tirs
