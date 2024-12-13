@@ -1,4 +1,5 @@
 import pyxel
+import sys
 
 # Configurations globales
 WINDOW_WIDTH = 128
@@ -26,7 +27,9 @@ WAVE_ENEMY_INCREMENT = 5
 ENEMY_SPAWN_DELAY = 30
 POWER_UP_SPAWN_TIME = 99999999
 
-QWERTY = True
+# Gestion du mode QWERTY via une option de ligne de commande
+QWERTY = '-qwerty' in sys.argv
+
 #COMMANDES
  ##tirs
 TIR_GAUCHE =  pyxel.KEY_A if QWERTY else pyxel.KEY_Q
