@@ -1,17 +1,23 @@
 import pyxel
 from config import WINDOW_HEIGHT, WINDOW_WIDTH, ENEMY_SPAWN_DELAY, INITIAL_PLAYER_HEALTH, \
-MAX_PLAYER_HEALTH, INITIAL_PLAYER_MUN, MAX_PLAYER_MUN, INITIAL_PLAYER_SPEED, FIRE_RATE, WAVE_ENEMY_INCREMENT
+MAX_PLAYER_HEALTH, INITIAL_PLAYER_MUN, MAX_PLAYER_MUN, INITIAL_PLAYER_SPEED, FIRE_RATE, WAVE_ENEMY_INCREMENT, \
+update_keyboard_layout, update_difficulty
 from player import Player
 from enemies import EnemyManager
 from projectiles import ProjectileManager
 from powerups import PowerUpManager
+from menu import MainMenu
 
 class Game:
     def __init__(self):
         pyxel.init(WINDOW_WIDTH, WINDOW_HEIGHT, title="Nuit du c0de")
-        
         pyxel.load("../assets/pyxres/my_assets.pyxres")
         
+        self.menu = MainMenu()
+        self.game_started = False
+        self.initialize_game()
+
+    def initialize_game(self):
         self.player = Player()
         self.enemy_manager = EnemyManager()
         self.projectile_manager = ProjectileManager()
@@ -22,33 +28,24 @@ class Game:
         self.et = ENEMY_SPAWN_DELAY
 
     def update(self):
+        if not self.game_started:
+            self.menu.update()
+            if self.menu.is_done:
+                settings = self.menu.get_game_settings()
+                update_difficulty(settings["difficulty"])
+                update_keyboard_layout(settings["is_qwerty"])
+                self.game_started = True
+                self.initialize_game()  # Réinitialiser le jeu avec les nouveaux paramètres
+            return
+
         if self.player.vies <= 0:
             if pyxel.btn(pyxel.KEY_SPACE):
-                self.vaisseau = [60, 60]
-                self.player.vies = INITIAL_PLAYER_HEALTH
-                self.player.vies_max = MAX_PLAYER_HEALTH
-                self.player.mun = INITIAL_PLAYER_MUN
-                self.player.mun_max = MAX_PLAYER_MUN
-                self.player.speed = INITIAL_PLAYER_SPEED
-                self.player.timer = 0
-                self.player.t = FIRE_RATE
-                self.player.current_direction = "up"
-                self.enemy_manager.ennemis_liste = []
-                self.enemy_manager.spawner = WAVE_ENEMY_INCREMENT
-                self.enemy_manager.enn_spawn = 0
-                self.enemy_manager.ennemi_timer = 0
-                self.enemy_manager.et = ENEMY_SPAWN_DELAY
-                self.enemy_manager.ennemi_sprite_index = 0
-                self.enemy_manager.ennemi_sprite_timer = 0
-                self.enemy_manager.ennemi_sprites = [(0, 120), (16, 120), (16, 136)]
-                self.powerup_manager.life_up = []
-                self.powerup_manager.speed_up = []
-                self.powerup_manager.mun_up = []
-                self.powerup_manager.fire_rate_up = []
-                self.powerup_manager.life_liste = []
-                self.powerup_manager.mun_liste = []
+                self.game_started = False
+                self.menu = MainMenu()
+                return
             else:
                 return
+        
         # Player updates
         self.player.deplacement()
         self.player.tirs_creation(self.projectile_manager)
@@ -90,6 +87,10 @@ class Game:
     def draw(self):
         pyxel.cls(5)
         
+        if not self.game_started:
+            self.menu.draw()
+            return
+            
         # Draw player
         self.player.draw()
         
